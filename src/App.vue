@@ -2,47 +2,33 @@
   <main>
     <div class="container">
       <h1>歡迎使用 re.works 待辦事項！</h1>
-      <div class="input-add">
-        <input type="text" name="todo" />
-        <button>
-          <i class="plus"></i>
-        </button>
-      </div>
-      <div class="filters">
-        <span class="filter active">全部</span>
-        <span class="filter">已完成</span>
-        <span class="filter">未完成</span>
-      </div>
-      <div class="todo-list">
-        <div class="todo-item">
-          <label>
-            <input type="checkbox" />
-            Todo 1
-            <span class="check-button"></span>
-          </label>
-        </div>
-        <div class="todo-item">
-          <label>
-            <input type="checkbox" />
-            Todo 2
-            <span class="check-button"></span>
-          </label>
-        </div>
-        <div class="todo-item">
-          <label>
-            <input type="checkbox" />
-            Todo 3
-            <span class="check-button"></span>
-          </label>
-        </div>
-      </div>
+      <todo-add :tid = "todos.length" @add-todo="addTodo" />
+      <todo-filter />
+      <todo-list :todos = "todos" />
     </div>
   </main>
 </template>
 
 <script>
+import { ref } from "vue";
+
+import TodoAddVue from './components/TodoAdd.vue';
+import TodoFilter from './components/TodoFilter.vue';
+import TodoFilterVue from './components/TodoFilter.vue';
+import TodoList from './components/TodoList.vue';
+
 export default {
-  name: 'App',
+  name: "App",
+  components: { TodoAdd, TodoFilter, TodoListTodoListTodoFilter },
+  setup() {
+    const todos = ref([]);
+    const addTodo = (todo) => todos.value.push(todo);
+    return {
+      todos,
+      addTodo,
+    };
+  },
+  /*  */
 };
 </script>
 
@@ -79,119 +65,11 @@ h1 {
   color: #414873;
 }
 
-/* 添加框 */
-.input-add {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
 
-.input-add input {
-  padding: 16px 52px 16px 18px;
-  border-radius: 48px;
-  border: none;
-  outline: none;
-  box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  font-size: 16px;
-  color: #626262;
-}
 
-.input-add button {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  /* 以上三個組合能將 + 變成圓型 */
 
-  background: linear-gradient(#C0A5F3, #7F95F7);
-  border: none; /* 去邊線 */
-  outline: none; /* 去外邊線 */
-  color: white;
-  position: absolute; /* 使用絕對定位 */
-  right: 0px; /* 放置 input 最右邊 */
-  cursor: pointer; /* 鼠標設置為小手 */
-}
 
-input-add .plus {
-  display: block;
-  width: 100%;
-  height: 100%;
-  /* 完成直線與橫線，成為一個加號 */
-  background: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff);
-  background-size: 50% 2px, 2px 50%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
 
-.filters {
-  display: flex;
-  margin: 24px 2px;
-  color: #C0C2CE; /* 默認淺灰色，未選中狀態 */
-  font-size: 14px;
-}
 
-.filters .filter {
-  margin-right: 14px;
-  transition: 0.8s;
-}
 
-/* 選中狀態 */
-.filters .filter.active {
-  color: #6B729C;
-  transform: scale(1.2);
-}
-
-.todo-list {
-  display: grid;
-  row-gap: 14px;
-}
-
-.todo-item {
-  background: white;
-  padding: 16px;
-  border-radius: 8px;
-  color: #626262;
-}
-
-.todo-item label {
-  position: relative; /* 相對定位 */
-  display: flex;
-  align-items: center;
-}
-
-.todo-item label span.check-button {
-  position: absolute;
-  top: 0;
-}
-
-/* 控制 checkbox 為圓型 */
-.todo-item label span.check-button::before,
-.todo-item label span.check-button::after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-}
-
-.todo-item label span.check-button::before {
-  border: 1px solid #B382F9;
-}
-
-.todo-item label span.check-button::after {
-  transition: 0.4s;
-  background: #B382F9;
-  transform: translate(1px, 1px) scale(0.8);
-  opacity: 0;
-}
-
-.todo-item input {
-  margin-right: 16px;
-  opacity: 0;
-}
-
-.todo-item input:checked + span.check-button::after {
-  opacity: 1;
-}
 </style>
