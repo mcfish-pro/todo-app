@@ -3,9 +3,9 @@
   <span
     v-for="filter in filters"
     :key="filter.value"
-    @click="@emit('change-filter', filter.value)"
+    @click="$emit('change-filter', filter.value)"
     class="filter"
-    :class="{ active: selected == filter.value }"
+    :class="{ active: selected === filter.value }"
     >{{ filter.label }}</span>
 </div>
   
@@ -22,9 +22,8 @@ export default {
         { lebal: "未完成", value: "todo" },
       ];
 
-      return { Filters };
-
-    }
+      return { filters };
+    },
 };
 </script>
 

@@ -10,37 +10,24 @@
 </template>
 
 <script>
-import { ref } from "vue";
-
-import TodoAdd from './components/TodoAdd.vue';
-import TodoFilter from './components/TodoFilter.vue';
-import TodoList from './components/TodoList.vue';
-
+import TodoAdd from "./components/TodoAdd.vue";
+import TodoFilter from "./components/TodoFilter.vue";
+import TodoList from "./components/TodoList.vue";
+import userTodos from "@/composables/useTodos.js";
+import useFilteredTodos from "@/composables/useFilteredTodos.js";
 
 export default {
   name: "App",
   components: { TodoAdd, TodoFilter, TodoList },
   setup() {
-    const todos = ref([]);
-    const addTodo = (todo) => todos.value.push(todo);
-
-    const filter = ref("all");
-    const filterTodos = computed(() => {
-      switch (filter.value) {
-        case "done":
-          return todos.value.filter((todo) => todo.completed);
-        case "todo":
-          return todos.value.filter((todo) => !todo.completed);
-        default:
-          return todos.value;
-      }
-    });
+    const { todos, addTodo } = userTodos();
+    const { filter, filteredTodos } = useFilteredTodos(todos);
 
     return {
       todos,
       addTodo,
       filter,
-      filterTodos,
+      filteredTodos,
     };
   },
 };
@@ -78,12 +65,4 @@ h1 {
   font-size: 28px;
   color: #414873;
 }
-
-
-
-
-
-
-
-
 </style>
