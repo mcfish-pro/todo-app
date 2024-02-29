@@ -4,12 +4,13 @@
       v-for="todo in todos"
       :key="todo.id"
       :todo-item="todo"
+      @change-state="todo.completed = $event.target.checked"
       ></todo-list-item>
    </div>
 </template>
 
 <script>
-import TodoListItem from "./TodoListItem.vue";
+import TodoListItem from "./TodoListItem";
 export default {
     name: "TodoList",
     components: { TodoListItem },

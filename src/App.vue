@@ -2,9 +2,9 @@
   <main>
     <div class="container">
       <h1>歡迎使用 re.works 待辦事項！</h1>
-      <todo-add :tid = "todos.length" @add-todo="addTodo" />
-      <todo-filter />
-      <todo-list :todos = "todos" />
+      <todo-add :tid="todos.length" @add-todo="addTodo" />
+      <todo-filter :selected="filter" @change-filter="filter = $event" />
+      <todo-list :todos = "filteredTodos" />
     </div>
   </main>
 </template>
@@ -12,23 +12,37 @@
 <script>
 import { ref } from "vue";
 
-import TodoAddVue from './components/TodoAdd.vue';
+import TodoAdd from './components/TodoAdd.vue';
 import TodoFilter from './components/TodoFilter.vue';
-import TodoFilterVue from './components/TodoFilter.vue';
 import TodoList from './components/TodoList.vue';
+
 
 export default {
   name: "App",
-  components: { TodoAdd, TodoFilter, TodoListTodoListTodoFilter },
+  components: { TodoAdd, TodoFilter, TodoList },
   setup() {
     const todos = ref([]);
     const addTodo = (todo) => todos.value.push(todo);
+
+    const filter = ref("all");
+    const filterTodos = computed(() => {
+      switch (filter.value) {
+        case "done":
+          return todos.value.filter((todo) => todo.completed);
+        case "todo":
+          return todos.value.filter((todo) => !todo.completed);
+        default:
+          return todos.value;
+      }
+    });
+
     return {
       todos,
       addTodo,
+      filter,
+      filterTodos,
     };
   },
-  /*  */
 };
 </script>
 

@@ -7,10 +7,10 @@
       placeholder="輸入待辦事項"
       @keyup.enter="emitAddTodo"/>
       
-      <button @click="emitAddTodo">
-          <i class="plus"></i>
-        </button>
-      </div>
+    <button @click="emitAddTodo">
+        <i class="plus"></i>
+      </button>
+  </div>
 </template>
 
 <script>
